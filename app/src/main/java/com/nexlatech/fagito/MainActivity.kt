@@ -1,5 +1,6 @@
 package com.nexlatech.fagito
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -28,5 +29,9 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.profileDetailsView.observe(this) {
             Log.d("println", it.apiVersion.toString())
         }
+
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+
     }
 }
