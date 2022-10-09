@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/startupScreen"
         android:name="com.nexlatech.fagito.StartupScreen"
-        android:label="fragment_startup_screen"
+        android:label="Fragment startup screen"
         tools:layout="@layout/fragment_startup_screen" >
         <action
             android:id="@+id/action_startupScreen_to_askingSignupLogin"
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/askingSignupLogin"
         android:name="com.nexlatech.fagito.AskingSignupLogin"
-        android:label="fragment_asking_signup_login"
+        android:label="Fragment asking signup login"
         tools:layout="@layout/fragment_asking_signup_login" >
         <action
             android:id="@+id/action_askingSignupLogin_to_startupScreen"
@@ -36,16 +36,16 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.nexlatech.fagito.HomeFragment"
-        android:label="fragment_home"
+        android:label="Fragment home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/scanFragment"
         android:name="com.nexlatech.fagito.ScanFragment"
-        android:label="fragment_scan"
+        android:label="Fragment scan"
         tools:layout="@layout/fragment_scan" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.nexlatech.fagito.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="Fragment profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
