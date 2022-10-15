@@ -3,36 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_nav"
-    app:startDestination="@id/startupScreen">
+    app:startDestination="@id/homeFragment">
 
-    <fragment
-        android:id="@+id/startupScreen"
-        android:name="com.nexlatech.fagito.StartupScreen"
-        android:label="Fragment startup screen"
-        tools:layout="@layout/fragment_startup_screen" >
-        <action
-            android:id="@+id/action_startupScreen_to_askingSignupLogin"
-            app:destination="@id/askingSignupLogin"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-    </fragment>
-    <fragment
-        android:id="@+id/askingSignupLogin"
-        android:name="com.nexlatech.fagito.AskingSignupLogin"
-        android:label="Fragment asking signup login"
-        tools:layout="@layout/fragment_asking_signup_login" >
-        <action
-            android:id="@+id/action_askingSignupLogin_to_startupScreen"
-            app:destination="@id/startupScreen"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-        <argument
-            android:name="number"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
-
-    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.nexlatech.fagito.HomeFragment"

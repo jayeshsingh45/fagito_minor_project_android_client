@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav"
+    app:startDestination="@id/askingSignupLogin">
+
+    <fragment
+        android:id="@+id/askingSignupLogin"
+        android:name="com.nexlatech.fagito.AskingSignupLogin"
+        android:label="fragment_asking_signup_login"
+        tools:layout="@layout/fragment_asking_signup_login" >
+        <action
+            android:id="@+id/action_askingSignupLogin_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:popEnterAnim="@anim/pop_enter_animation"
+            app:popExitAnim="@anim/pop_exit_animation" />
+        <action
+            android:id="@+id/action_askingSignupLogin_to_signupFragment2"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.nexlatech.fagito.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_askingSignupLogin"
+            app:destination="@id/askingSignupLogin" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.nexlatech.fagito.SignupFragment"
+        android:label="fragment_signup"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signupFragment_to_signupAllergyFragment"
+            app:destination="@id/signupAllergyFragment" />
+        <action
+            android:id="@+id/action_signupFragment_to_askingSignupLogin"
+            app:destination="@id/askingSignupLogin" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupAllergyFragment"
+        android:name="com.nexlatech.fagito.SignupAllergyFragment"
+        android:label="fragment_signup_allergy"
+        tools:layout="@layout/fragment_signup_allergy" >
+        <action
+            android:id="@+id/action_signupAllergyFragment_to_singupAvoidFragment"
+            app:destination="@id/singupAvoidFragment" />
+        <action
+            android:id="@+id/action_signupAllergyFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/singupAvoidFragment"
+        android:name="com.nexlatech.fagito.SingupAvoidFragment"
+        android:label="fragment_singup_avoid"
+        tools:layout="@layout/fragment_singup_avoid" >
+        <action
+            android:id="@+id/action_singupAvoidFragment_to_payAttentionFragment"
+            app:destination="@id/payAttentionFragment" />
+        <action
+            android:id="@+id/action_singupAvoidFragment_to_signupAllergyFragment"
+            app:destination="@id/signupAllergyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/payAttentionFragment"
+        android:name="com.nexlatech.fagito.PayAttentionFragment"
+        android:label="fragment_pay_attention"
+        tools:layout="@layout/fragment_pay_attention" >
+        <action
+            android:id="@+id/action_payAttentionFragment_to_singupAvoidFragment"
+            app:destination="@id/singupAvoidFragment" />
+    </fragment>
+</navigation>

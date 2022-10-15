@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("println", it.apiVersion.toString())
         }
 
-        val intent = Intent(this, HomeActivity::class.java)
+        val intent = Intent(this, AuthActivity::class.java)
         startActivity(intent)
 
     }

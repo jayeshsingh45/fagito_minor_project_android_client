@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">Login</string>
+    <string name="fagito_logo">Fagito Logo</string>
+    <string name="email">E-mail</string>
+</resources>
