@@ -3,6 +3,8 @@ package com.nexlatech.fagito.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nexlatech.fagito.api.Resource
+import com.nexlatech.fagito.models.getLoginToken
 import com.nexlatech.fagito.models.getProfileDetails
 import com.nexlatech.fagito.repository.FagitoRepository
 import kotlinx.coroutines.Dispatchers
@@ -18,5 +20,15 @@ class MainViewModel(private val repository: FagitoRepository):ViewModel() {
 
     val profileDetailsView : LiveData<getProfileDetails>
     get() = repository.profileDetails
+
+
+    fun login(userName: String, password: String){
+        viewModelScope.launch {
+            repository.login(userName, password)
+        }
+    }
+
+    val getLoginToken : LiveData<Resource<getLoginToken>>
+        get() = repository.logins
 
 }

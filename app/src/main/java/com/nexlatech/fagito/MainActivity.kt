@@ -21,14 +21,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        val fagitoService = RetrofitHelper.getInstance().create(FagitoService::class.java)
-        val repository = FagitoRepository(fagitoService)
-
-        mainViewModel = ViewModelProvider(this, MainViewModelFactory(repository)).get(MainViewModel::class.java)
-
-        mainViewModel.profileDetailsView.observe(this) {
-            Log.d("println", it.apiVersion.toString())
-        }
+//        val fagitoService = RetrofitHelper.getInstance().create(FagitoService::class.java)
+//        val repository = FagitoRepository(fagitoService)
+//
+//        mainViewModel = ViewModelProvider(this, MainViewModelFactory(repository)).get(MainViewModel::class.java)
+//
+//        mainViewModel.profileDetailsView.observe(this) {
+//            Log.d("println", it.apiVersion.toString())
+//        }
 
         val intent = Intent(this, AuthActivity::class.java)
         startActivity(intent)

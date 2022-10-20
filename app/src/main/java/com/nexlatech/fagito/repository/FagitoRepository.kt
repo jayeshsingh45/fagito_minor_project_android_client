@@ -1,22 +1,92 @@
 package com.nexlatech.fagito.repository
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nexlatech.fagito.api.FagitoService
+import com.nexlatech.fagito.api.Resource
+import com.nexlatech.fagito.models.LoginData
+import com.nexlatech.fagito.models.getLoginToken
 import com.nexlatech.fagito.models.getProfileDetails
+import com.nexlatech.fagito.utils.NetworkUtils
+import java.util.*
+import kotlin.concurrent.schedule
 
-class FagitoRepository(private val fagitoService: FagitoService) {
+class FagitoRepository(
+    private val fagitoService: FagitoService,
+    private val applicationContext: Context,
+    ) {
 
     private val profileDetailsLiveData = MutableLiveData<getProfileDetails>()
 
     val profileDetails: LiveData<getProfileDetails>
     get() = profileDetailsLiveData
 
+    //Login Live data
+    private val loginLiveData = MutableLiveData<Resource<getLoginToken>>()
+    val logins: LiveData<Resource<getLoginToken>>
+        get() = loginLiveData
+
     suspend fun getProfileDetails(token: String){
         val result = fagitoService.getProfileDetails(token)
         if(result?.body() != null){
             profileDetailsLiveData.postValue(result.body())
+        }
+    }
+
+    suspend fun login(userName: String, password: String) {
+        if(NetworkUtils.isInternetAvailable(applicationContext)){
+            loginLiveData.postValue(Resource.Loading)
+            try {
+                val loginsData = LoginData(userName, password)
+                val result = fagitoService.getLoginToken(loginsData)
+
+                if(result.body() != null){
+                    Log.d("println", "204:" + result.body().toString())
+                    loginLiveData.postValue(Resource.Success(result.body()!!))
+
+                    Timer().schedule(2000){
+                        loginLiveData.postValue(Resource.DoNothing)
+                    }
+
+                }else if (result.errorBody() != null){
+                    if(result.code() == 401){
+                        Log.d("println", "22:" + result.code().toString())
+                        loginLiveData.postValue(Resource.Failure(
+                            false, result.code(), "Email or password is incorrect."))
+
+                        Timer().schedule(2000){
+                            loginLiveData.postValue(Resource.DoNothing)
+                        }
+                    }else{
+                        Log.d("println", "24: " + result.errorBody()!!.string().toString())
+                        loginLiveData.postValue(Resource.Failure(
+                            false, result.code(), result.errorBody()!!.string().toString()))
+
+                        Timer().schedule(2000){
+                            loginLiveData.postValue(Resource.DoNothing)
+                        }
+                    }
+                }
+            }catch (e: Exception){
+                Log.d("println", "29: ${e.message.toString()}")
+                loginLiveData.postValue(Resource.Failure(
+                    false, 1, e.message.toString()))
+
+                Timer().schedule(2000){
+                    loginLiveData.postValue(Resource.DoNothing)
+                }
+            }
+
+        }else {
+            loginLiveData.postValue(Resource.Failure(
+                false, 0, "Check Internet."))
+            Log.d("println", "27: Check Internet.")
+
+            Timer().schedule(2000){
+                loginLiveData.postValue(Resource.DoNothing)
+            }
         }
     }
 }

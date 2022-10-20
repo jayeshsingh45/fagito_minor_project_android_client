@@ -3,4 +3,5 @@
     <string name="login">Login</string>
     <string name="fagito_logo">Fagito Logo</string>
     <string name="email">E-mail</string>
+    <string name="password">Password</string>
 </resources>
