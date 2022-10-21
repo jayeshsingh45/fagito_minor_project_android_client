@@ -1,5 +1,6 @@
 package com.nexlatech.fagito
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -46,6 +47,10 @@ class LoginFragment : Fragment() {
                 is Resource.Success -> {
                     Log.d("println",it.value.postRequest.content.accessToken)
 
+                    saveToSharedPreferences(
+                        "jsonTokenKey", it.value.postRequest.content.accessToken)
+
+
                     activity?.let{
                         val intent = Intent(it, HomeActivity::class.java)
                         it.startActivity(intent)
@@ -65,7 +70,21 @@ class LoginFragment : Fragment() {
         }
 
         return view
+
+
     }
+
+    private fun saveToSharedPreferences(key: String, token: String){
+        //saving jsonToken to shared Preferences
+
+        val sharedPref = activity?.getSharedPreferences("jsonTokenFile",Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putString(key, token)
+            apply()
+        }
+    }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
