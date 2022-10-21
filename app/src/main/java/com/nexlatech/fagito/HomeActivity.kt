@@ -1,13 +1,13 @@
 package com.nexlatech.fagito
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import androidx.navigation.findNavController
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.nexlatech.fagito.databinding.ActivityHomeBinding
+
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -28,10 +28,15 @@ class HomeActivity : AppCompatActivity() {
         /*Telling our bottomNavigationView where is our navHostFragment.*/
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
+
         val navController = navHostFragment.navController
         binding.bottomNavigationView.setupWithNavController(navController)
 
+        binding.fab.setOnClickListener {
+            val intent = Intent(this, ScanActivity::class.java)
+            startActivity(intent)
 
+        }
 
     }
 }
