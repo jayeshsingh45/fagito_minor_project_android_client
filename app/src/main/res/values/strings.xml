@@ -8,4 +8,9 @@
     <string name="email">E-mail</string>
     <string name="password">Password</string>
     <string name="preference_file_key">jsonToken</string>
+    <string name="close">Close</string>
+    <string name="product_image">Product Image</string>
+    <string name="name_of_the_product_should_be_here">Name of the product should be here</string>
+    <string name="you_can_eat">You can eat.</string>
+    "
 </resources>

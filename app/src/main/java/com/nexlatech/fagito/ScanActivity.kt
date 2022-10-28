@@ -20,8 +20,8 @@ private const val CAMERA_REQUEST_CODE = 101
 class ScanActivity : AppCompatActivity() {
     private lateinit var binding: ActivityScanBinding
     private lateinit var codeScanner: CodeScanner
-    private var qrCodeText = "Scan barcode."
-
+    private var qrCodeText = "000"
+    private var barcodeNumberPrevious = "000"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +33,8 @@ class ScanActivity : AppCompatActivity() {
         setupPermissions()
         codeScanner()
 
-        Log.d("println", qrCodeText)
+        Log.d("println", qrCodeText.toString())
+
 
 
     }
@@ -57,12 +58,29 @@ class ScanActivity : AppCompatActivity() {
                     Log.d("println", it.text)
 
                     callingApi(qrCodeText)
+
+                    if(barcodeNumberPrevious != qrCodeText){
+                        barcodeNumberPrevious = qrCodeText
+                        val mBundle = Bundle()
+                        mBundle.putString("mText", "hello from activity.")
+                        val modalBottomSheet = BottomModalFragment()
+                        modalBottomSheet.arguments = mBundle
+                        modalBottomSheet.show(supportFragmentManager, BottomModalFragment.TAG)
+                    }
+
+
+
+
+
+
                 }
             }
 
             errorCallback = ErrorCallback {
                 runOnUiThread {
                     Log.e("main", "Camera initialization error: ${it.message}")
+
+
                 }
             }
 
@@ -70,7 +88,11 @@ class ScanActivity : AppCompatActivity() {
                 codeScanner.startPreview()
             }
 
+            //navigating back.
+            binding.fabClose.setOnClickListener {
+                finish()
 
+            }
 
         }
     }
