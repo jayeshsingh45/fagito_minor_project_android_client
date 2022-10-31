@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.nexlatech.fagito.api.Resource
 import com.nexlatech.fagito.models.getLoginToken
 import com.nexlatech.fagito.models.getProfileDetails
+import com.nexlatech.fagito.models.userCanEatOrNot
 import com.nexlatech.fagito.repository.FagitoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +28,14 @@ class MainViewModel(private val repository: FagitoRepository):ViewModel() {
             repository.login(userName, password)
         }
     }
+
+    fun userCanEatOrNot(){
+        viewModelScope.launch {
+            repository.userCanEatOrNot()
+        }
+    }
+    val userCanEatOrNotLiveMVM: LiveData<Resource<userCanEatOrNot>>
+        get() = repository.userCanEatOrNotLive
 
     val getLoginToken : LiveData<Resource<getLoginToken>>
         get() = repository.logins

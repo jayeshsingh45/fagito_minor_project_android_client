@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nexlatech.fagito.api.FagitoService
 import com.nexlatech.fagito.api.Resource
-import com.nexlatech.fagito.models.LoginData
-import com.nexlatech.fagito.models.getLoginToken
-import com.nexlatech.fagito.models.getProfileDetails
+import com.nexlatech.fagito.models.*
 import com.nexlatech.fagito.utils.NetworkUtils
 import java.util.*
 import kotlin.concurrent.schedule
@@ -19,14 +17,31 @@ class FagitoRepository(
     ) {
 
     private val profileDetailsLiveData = MutableLiveData<getProfileDetails>()
-
     val profileDetails: LiveData<getProfileDetails>
-    get() = profileDetailsLiveData
+        get() = profileDetailsLiveData
 
     //Login Live data
     private val loginLiveData = MutableLiveData<Resource<getLoginToken>>()
     val logins: LiveData<Resource<getLoginToken>>
         get() = loginLiveData
+
+    //userCanEatOrNot Live data
+    private val userCanEatOrNotLiveData = MutableLiveData<Resource<userCanEatOrNot>>()
+    val userCanEatOrNotLive: LiveData<Resource<userCanEatOrNot>>
+        get() = userCanEatOrNotLiveData
+
+    suspend fun userCanEatOrNot(){
+        val userCanEatOrNotRequest = userCanEatOrNotRequest("8901058897159")
+
+        val result = fagitoService.userCanEatOrNot(
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InRlc3QyIiwiaWF0IjoxNjY2MjgwODMwLCJleHAiOjE2OTc4MTY4MzB9.qbBSvO4HmcQgtZgMnMv4RwlProgcPW7wrcFf6R4s9U4",
+            userCanEatOrNotRequest
+        )
+
+        if(result?.body() != null){
+            userCanEatOrNotLiveData.postValue(Resource.Success(result.body()!!))
+        }
+    }
 
     suspend fun getProfileDetails(token: String){
         val result = fagitoService.getProfileDetails(token)
