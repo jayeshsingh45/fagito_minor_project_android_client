@@ -16,15 +16,6 @@ class FagitoRepository(
     private val applicationContext: Context,
     ) {
 
-    private val profileDetailsLiveData = MutableLiveData<getProfileDetails>()
-    val profileDetails: LiveData<getProfileDetails>
-        get() = profileDetailsLiveData
-
-    //Login Live data
-    private val loginLiveData = MutableLiveData<Resource<getLoginToken>>()
-    val logins: LiveData<Resource<getLoginToken>>
-        get() = loginLiveData
-
     //userCanEatOrNot Live data
     private val userCanEatOrNotLiveData = MutableLiveData<Resource<userCanEatOrNot>>()
     val userCanEatOrNotLive: LiveData<Resource<userCanEatOrNot>>
@@ -43,12 +34,23 @@ class FagitoRepository(
         }
     }
 
+
+    //profileDetails live data
+    private val profileDetailsLiveData = MutableLiveData<getProfileDetails>()
+    val profileDetails: LiveData<getProfileDetails>
+        get() = profileDetailsLiveData
+
     suspend fun getProfileDetails(token: String){
         val result = fagitoService.getProfileDetails(token)
         if(result?.body() != null){
             profileDetailsLiveData.postValue(result.body())
         }
     }
+
+    //Login Live data
+    private val loginLiveData = MutableLiveData<Resource<getLoginToken>>()
+    val logins: LiveData<Resource<getLoginToken>>
+        get() = loginLiveData
 
     suspend fun login(userName: String, password: String) {
         if(NetworkUtils.isInternetAvailable(applicationContext)){
