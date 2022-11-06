@@ -1,6 +1,8 @@
 package com.nexlatech.fagito.api
 
 import com.nexlatech.fagito.models.*
+import com.skydoves.sandwich.ApiResponse
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -23,5 +25,11 @@ interface FagitoService {
         @Header("access-token") token: String,
         @Body userCanEatOrNotRequest: userCanEatOrNotRequest
     ): Response<userCanEatOrNot>
+
+//    @POST("/fagito_minor_project_1.0/foodData/getUserCanEatOrNot")
+//    suspend fun userCanEatOrNot(
+//        @Header("access-token") token: String,
+//        @Body userCanEatOrNotRequest: userCanEatOrNotRequest
+//    ): Call<userCanEatOrNot>
 
 }

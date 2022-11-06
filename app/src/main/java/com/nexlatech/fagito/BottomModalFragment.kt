@@ -1,11 +1,14 @@
 package com.nexlatech.fagito
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.*
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
@@ -16,9 +19,11 @@ import com.nexlatech.fagito.api.FagitoService
 import com.nexlatech.fagito.api.Resource
 import com.nexlatech.fagito.api.RetrofitHelper
 import com.nexlatech.fagito.databinding.FragmentBottomModalBinding
+import com.nexlatech.fagito.models.userCanEatOrNot
 import com.nexlatech.fagito.repository.FagitoRepository
 import com.nexlatech.fagito.viewmodel.MainViewModel
 import com.nexlatech.fagito.viewmodel.MainViewModelFactory
+
 
 class BottomModalFragment : BottomSheetDialogFragment() {
     companion object {
@@ -46,11 +51,70 @@ class BottomModalFragment : BottomSheetDialogFragment() {
         mainViewModel = ViewModelProvider(this, MainViewModelFactory(repository))[MainViewModel::class.java]
 
         val bundle = arguments
-        val message = bundle!!.getString("mText")
-        Log.d("println",message.toString())
+        val UPCCode = bundle!!.getString("UPCCode")
+        val token = bundle.getString("token")
+        Log.d("println",UPCCode.toString())
+
+        if (token != null) {
+            mainViewModel.userCanEatOrNot(UPCCode.toString(),token)
+        } else{
+            Toast.makeText(requireContext(), "Can't get Token from local Storage Login again.",
+                Toast.LENGTH_LONG).show()
+        }
 
         binding.ivClose.setOnClickListener {
             dismiss()
+        }
+
+        binding.tvErrorAndLoading.text = "Loading..."
+        binding.tvErrorAndLoading.visibility = VISIBLE
+        mainViewModel.userCanEatOrNotLiveMVM.observe(viewLifecycleOwner, Observer { it ->
+            when(it){
+                is Resource.DoNothing->{}
+                is Resource.Success ->{
+                    Log.d("println",it.value.postRequest.content.productImageLink)
+
+                    settingViewsValue(it.value)
+
+                    makeEveryThingVisible()
+                    binding.tvErrorAndLoading.visibility = INVISIBLE
+                }
+                is Resource.Failure ->{
+                    if(it.errorCode == 404){
+                        binding.tvErrorAndLoading.text = it.errorBody
+                    }
+
+                }
+                else ->{}
+            }
+        })
+
+        return view
+    }
+
+    private fun makeEveryThingVisible(){
+        binding.ivProductImage.visibility = 1
+        binding.tvProductName.visibility = 1
+        binding.ivIcon.visibility = 1
+        binding.tvEatOrNot.visibility = 1
+        binding.ivBuyAmazon.visibility = 1
+        binding.ivBuyFlipkart.visibility = 1
+
+    }
+
+    private fun settingViewsValue(values: userCanEatOrNot){
+        val url = values.postRequest.content.productImageLink
+        binding.tvProductName.text = values.postRequest.content.productName
+        binding.tvEatOrNot.text = values.postRequest.content.suggestText
+        binding.ivBuyFlipkart.setOnClickListener {
+            val urlFlipkart: String = values.postRequest.content.product_flipkart_link
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlFlipkart))
+            startActivity(intent)
+        }
+        binding.ivBuyAmazon.setOnClickListener {
+            val urlAmazon: String = values.postRequest.content.product_amazon_link
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(urlAmazon))
+            startActivity(intent)
         }
 
         //circular progress loading.
@@ -60,39 +124,20 @@ class BottomModalFragment : BottomSheetDialogFragment() {
             circularProgressDrawable.start()
             circularProgressDrawable.centerRadius = 30f
         }
+        //loading image
+        Glide.with(this)
+            .load(url)
+            .fitCenter()
+            .skipMemoryCache(true)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .placeholder(circularProgressDrawable)
+            .into(binding.ivProductImage)
 
-
-
-
-        mainViewModel.userCanEatOrNotLiveMVM.observe(viewLifecycleOwner, Observer { it ->
-            when(it){
-                is Resource.DoNothing->{}
-                is Resource.Success ->{
-                    Log.d("println",it.value.postRequest.content.productName)
-
-                    val url = it.value.postRequest.content.productImageLink
-
-                    //loading image
-                    Glide.with(this)
-                        .load(url)
-                        .fitCenter()
-                        .skipMemoryCache(true)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .placeholder(circularProgressDrawable)
-                        .into(binding.ivProductImage)
-                }
-                is Resource.Failure ->{
-                    Log.d("println","Bottom Modal sheet api request fail.")
-                }
-                else ->{}
-            }
-        })
-
-        mainViewModel.userCanEatOrNot()
-
-
-
-
-        return view
+        when (values.postRequest.content.suggestIcon){
+            1 -> binding.ivIcon.setImageResource(R.drawable.red_cross)
+            2 -> binding.ivIcon.setImageResource(R.drawable.yellow_stop)
+            3 -> binding.ivIcon.setImageResource(R.drawable.green_tick)
+        }
     }
+
 }

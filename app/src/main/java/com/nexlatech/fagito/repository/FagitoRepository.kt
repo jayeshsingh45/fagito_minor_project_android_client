@@ -8,7 +8,17 @@ import com.nexlatech.fagito.api.FagitoService
 import com.nexlatech.fagito.api.Resource
 import com.nexlatech.fagito.models.*
 import com.nexlatech.fagito.utils.NetworkUtils
+import com.skydoves.sandwich.ApiResponse
+import com.skydoves.sandwich.onSuccess
+import com.skydoves.sandwich.request
+import com.skydoves.sandwich.suspendOnSuccess
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import org.json.JSONObject
+import retrofit2.HttpException
+import java.io.IOException
 import java.util.*
+import java.util.concurrent.Flow
 import kotlin.concurrent.schedule
 
 class FagitoRepository(
@@ -21,17 +31,26 @@ class FagitoRepository(
     val userCanEatOrNotLive: LiveData<Resource<userCanEatOrNot>>
         get() = userCanEatOrNotLiveData
 
-    suspend fun userCanEatOrNot(){
-        val userCanEatOrNotRequest = userCanEatOrNotRequest("8901058897159")
+    suspend fun userCanEatOrNot(UPCCode:String, token:String){
+        val userCanEatOrNotRequest = userCanEatOrNotRequest(UPCCode);
 
-        val result = fagitoService.userCanEatOrNot(
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InRlc3QyIiwiaWF0IjoxNjY2MjgwODMwLCJleHAiOjE2OTc4MTY4MzB9.qbBSvO4HmcQgtZgMnMv4RwlProgcPW7wrcFf6R4s9U4",
-            userCanEatOrNotRequest
-        )
+            val response = fagitoService.userCanEatOrNot(
+                token,
+                userCanEatOrNotRequest
+            )
 
-        if(result?.body() != null){
-            userCanEatOrNotLiveData.postValue(Resource.Success(result.body()!!))
-        }
+            if(response.isSuccessful && response.body() != null){
+                userCanEatOrNotLiveData.postValue(Resource.Success(response.body()!!))
+            }else if (response.errorBody() != null){
+                val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+                val descripitonText = errorObj.getJSONObject("postRequest").getString("description")
+                userCanEatOrNotLiveData.postValue(Resource.Failure(false,response.code(),descripitonText))
+
+                Log.d("println",errorObj.getJSONObject("postRequest").getString("description"))
+            }else{
+                Log.d("println", "Unknown error occurred.")
+            }
+
     }
 
 

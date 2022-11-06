@@ -6,5 +6,7 @@ data class ContentXX(
     val suggestIcon: Int,
     val suggestText: String,
     val userAllergenMatchList: List<String>,
-    val userAvoidMatchIngredientList: List<String>
+    val userAvoidMatchIngredientList: List<String>,
+    val product_amazon_link: String,
+    val product_flipkart_link: String
 )

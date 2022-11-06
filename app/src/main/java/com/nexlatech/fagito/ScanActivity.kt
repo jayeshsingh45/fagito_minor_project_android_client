@@ -1,5 +1,6 @@
 package com.nexlatech.fagito
 
+import android.content.Context
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -51,27 +52,28 @@ class ScanActivity : AppCompatActivity() {
             isAutoFocusEnabled = true
             isFlashEnabled = false
 
+            val jsonToken = getJsonTokenSharedPreferences()
+
+
             decodeCallback = DecodeCallback {
                 runOnUiThread {
                     binding.tvScanCodeText.text = it.text
                     qrCodeText = it.text
-                    Log.d("println", it.text)
 
                     callingApi(qrCodeText)
 
                     if(barcodeNumberPrevious != qrCodeText){
                         barcodeNumberPrevious = qrCodeText
+
+                        //we are showing this modal view for test only on android emulator.
                         val mBundle = Bundle()
-                        mBundle.putString("mText", "hello from activity.")
+                        mBundle.putString("UPCCode", qrCodeText)
+                        mBundle.putString("token", jsonToken)
+
                         val modalBottomSheet = BottomModalFragment()
                         modalBottomSheet.arguments = mBundle
                         modalBottomSheet.show(supportFragmentManager, BottomModalFragment.TAG)
                     }
-
-
-
-
-
 
                 }
             }
@@ -79,8 +81,6 @@ class ScanActivity : AppCompatActivity() {
             errorCallback = ErrorCallback {
                 runOnUiThread {
                     Log.e("main", "Camera initialization error: ${it.message}")
-
-
                 }
             }
 
@@ -88,9 +88,12 @@ class ScanActivity : AppCompatActivity() {
                 codeScanner.startPreview()
             }
 
+
+
             //navigating back.
             binding.fabClose.setOnClickListener {
                 finish()
+
 
             }
 
@@ -136,7 +139,20 @@ class ScanActivity : AppCompatActivity() {
                 }
             }
         }
+
+
     }
+
+
+    private fun getJsonTokenSharedPreferences():String? {
+        //getting Json token from shared preferences.
+
+        val sharedPreference = this.getSharedPreferences("jsonTokenFile", Context.MODE_PRIVATE)
+        val jsonToken = sharedPreference?.getString("jsonTokenKey","defaultName");
+
+        return jsonToken;
+    }
+
 
     override fun onResume() {
         super.onResume()

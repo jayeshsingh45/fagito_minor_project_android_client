@@ -29,9 +29,9 @@ class MainViewModel(private val repository: FagitoRepository):ViewModel() {
         }
     }
 
-    fun userCanEatOrNot(){
+    fun userCanEatOrNot(UPCCode: String, token: String){
         viewModelScope.launch {
-            repository.userCanEatOrNot()
+            repository.userCanEatOrNot(UPCCode, token)
         }
     }
     val userCanEatOrNotLiveMVM: LiveData<Resource<userCanEatOrNot>>
