@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
         //getting Json token from shared preferences.
 
         val sharedPreference = activity?.getSharedPreferences("jsonTokenFile",Context.MODE_PRIVATE)
-        val jsonToken = sharedPreference?.getString("jsonTokenKey","defaultName");
+        val jsonToken = sharedPreference?.getString("jsonTokenKey","NoToken");
 
         return jsonToken;
     }

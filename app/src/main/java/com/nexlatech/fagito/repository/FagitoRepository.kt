@@ -2,6 +2,7 @@ package com.nexlatech.fagito.repository
 
 import android.content.Context
 import android.util.Log
+import androidx.core.content.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nexlatech.fagito.api.FagitoService
@@ -123,6 +124,17 @@ class FagitoRepository(
             Timer().schedule(2000){
                 loginLiveData.postValue(Resource.DoNothing)
             }
+        }
+    }
+
+    fun deleteTokenFromSharedPreferences(){
+        //getting Json token from shared preferences.
+
+        val sharedPreference = applicationContext.getSharedPreferences("jsonTokenFile", Context.MODE_PRIVATE)
+        val jsonToken = sharedPreference?.getString("jsonTokenKey","defaultName");
+
+        sharedPreference.edit {
+            this.clear()
         }
     }
 }

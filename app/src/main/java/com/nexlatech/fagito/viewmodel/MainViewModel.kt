@@ -22,6 +22,10 @@ class MainViewModel(private val repository: FagitoRepository):ViewModel() {
     val profileDetailsView : LiveData<getProfileDetails>
     get() = repository.profileDetails
 
+    fun deleteTokenFromSharedPreferences(){
+        repository.deleteTokenFromSharedPreferences()
+    }
+
 
     fun login(userName: String, password: String){
         viewModelScope.launch {
