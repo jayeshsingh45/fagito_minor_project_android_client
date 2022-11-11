@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nexlatech.fagito.api.Resource
+import com.nexlatech.fagito.models.FoodRecommendationModel
 import com.nexlatech.fagito.models.getLoginToken
 import com.nexlatech.fagito.models.getProfileDetails
 import com.nexlatech.fagito.models.userCanEatOrNot
@@ -40,6 +41,14 @@ class MainViewModel(private val repository: FagitoRepository):ViewModel() {
     }
     val userCanEatOrNotLiveMVM: LiveData<Resource<userCanEatOrNot>>
         get() = repository.userCanEatOrNotLive
+
+    fun foodRecommendation(token: String){
+        viewModelScope.launch {
+            repository.foodRecommendation(token)
+        }
+    }
+    val foodRecommendationMVM: LiveData<Resource<FoodRecommendationModel>>
+        get() = repository.foodRecommendationLive
 
     val getLoginToken : LiveData<Resource<getLoginToken>>
         get() = repository.logins

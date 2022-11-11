@@ -11,4 +11,6 @@
     <string name="you_can_eat">You can eat.</string>
     <string name="loading">Loading...</string>
     <string name="product_not_found">Product not found.</string>
+    <string name="username">Username</string>
+    <string name="name">Name</string>
 </resources>

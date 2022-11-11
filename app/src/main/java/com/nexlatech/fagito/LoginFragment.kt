@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.nexlatech.fagito.api.FagitoService
 import com.nexlatech.fagito.api.Resource
 import com.nexlatech.fagito.api.RetrofitHelper
@@ -65,9 +66,9 @@ class LoginFragment : Fragment() {
         })
 
         binding.acbLogin.setOnClickListener {
-            mainViewModel.login(binding.tiEmail.text.toString(), binding.tiPassword.text.toString())
-//            Log.d("println",binding.tiEmail.text.toString())
+            mainViewModel.login(binding.tiUsername.text.toString(), binding.tiPassword.text.toString())
         }
+
 
         return view
 

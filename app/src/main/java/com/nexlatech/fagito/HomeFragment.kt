@@ -8,11 +8,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.nexlatech.fagito.api.FagitoService
+import com.nexlatech.fagito.api.Resource
+import com.nexlatech.fagito.api.RetrofitHelper
 import com.nexlatech.fagito.databinding.FragmentHomeBinding
+import com.nexlatech.fagito.repository.FagitoRepository
+import com.nexlatech.fagito.viewmodel.MainViewModel
+import com.nexlatech.fagito.viewmodel.MainViewModelFactory
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var mainViewModel: MainViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,9 +33,46 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        val jsonToken = getJsonTokenSharedPreferences()
+        //mainViewModel setup
+        val fagitoService = RetrofitHelper.getInstance().create(FagitoService::class.java)
+        val repository = FagitoRepository(fagitoService, requireContext())
+        mainViewModel = ViewModelProvider(this, MainViewModelFactory(repository))[MainViewModel::class.java]
 
+        val jsonToken = getJsonTokenSharedPreferences()
         Log.d("println", "jsonToken Shared preferences " + jsonToken.toString())
+
+        if (jsonToken != null) {
+            mainViewModel.foodRecommendation(jsonToken)
+        } else{
+            Toast.makeText(requireContext(), "Can't get Token from local Storage Login again.",
+                Toast.LENGTH_LONG).show()
+        }
+
+        mainViewModel.foodRecommendationMVM.observe(viewLifecycleOwner, Observer { it ->
+            when(it){
+                is Resource.DoNothing->{}
+                is Resource.Success ->{
+//                    Log.d("println",it.value.postRequest.content.userProductRecommendationList)
+
+                    for(element in it.value.postRequest.content.userProductRecommendationList){
+                        Log.d("println",element.product_amazon_link)
+
+                    }
+
+//                    settingViewsValue(it.value)
+//
+//                    makeEveryThingVisible()
+//                    binding.tvErrorAndLoading.visibility = View.INVISIBLE
+                }
+                is Resource.Failure ->{
+                    if(it.errorCode == 404){
+//                        binding.tvErrorAndLoading.text = it.errorBody
+                    }
+
+                }
+                else ->{}
+            }
+        })
 
 
         return view

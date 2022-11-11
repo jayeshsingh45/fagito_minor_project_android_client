@@ -26,10 +26,8 @@ interface FagitoService {
         @Body userCanEatOrNotRequest: userCanEatOrNotRequest
     ): Response<userCanEatOrNot>
 
-//    @POST("/fagito_minor_project_1.0/foodData/getUserCanEatOrNot")
-//    suspend fun userCanEatOrNot(
-//        @Header("access-token") token: String,
-//        @Body userCanEatOrNotRequest: userCanEatOrNotRequest
-//    ): Call<userCanEatOrNot>
-
+    @POST("/fagito_minor_project_1.0/foodData/getFoodRecommendation")
+    suspend fun getFoodRecommendation(
+        @Header("access-token") token: String
+    ): Response<FoodRecommendationModel>
 }
