@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clRootView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:padding="1dp">
+
+
+    <ImageView
+        android:id="@+id/ivProductImageCR"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:src="@drawable/test_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvProductNameCR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/product_image"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/ivProductImageCR"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/check_circle_80"
+        app:layout_constraintStart_toEndOf="@+id/ivProductImageCR"
+        app:layout_constraintTop_toBottomOf="@+id/tvProductNameCR" />
+
+    <TextView
+        android:id="@+id/tvEatOrNot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/you_can_eat"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintStart_toEndOf="@+id/ivIcon"
+        app:layout_constraintTop_toBottomOf="@+id/tvProductNameCR" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

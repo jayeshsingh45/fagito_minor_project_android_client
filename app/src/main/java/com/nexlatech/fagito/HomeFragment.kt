@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nexlatech.fagito.api.FagitoService
 import com.nexlatech.fagito.api.Resource
 import com.nexlatech.fagito.api.RetrofitHelper
@@ -48,6 +49,12 @@ class HomeFragment : Fragment() {
                 Toast.LENGTH_LONG).show()
         }
 
+        //RecyclerView Setup
+        val adapter = ProductsAdapter(mainViewModel, this)
+        val recyclerView = binding.rvProduct
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         mainViewModel.foodRecommendationMVM.observe(viewLifecycleOwner, Observer { it ->
             when(it){
                 is Resource.DoNothing->{}
@@ -58,6 +65,8 @@ class HomeFragment : Fragment() {
                         Log.d("println",element.product_amazon_link)
 
                     }
+                    adapter.setData(it.value.postRequest.content.userProductRecommendationList)
+
 
 //                    settingViewsValue(it.value)
 //
