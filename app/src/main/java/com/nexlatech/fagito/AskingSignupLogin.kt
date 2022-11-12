@@ -60,6 +60,9 @@ class AskingSignupLogin : Fragment() {
         binding.acbLogin.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_askingSignupLogin_to_loginFragment)
         }
+        binding.acbSignUp.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_askingSignupLogin_to_signupFragment2)
+        }
 
 
         return view

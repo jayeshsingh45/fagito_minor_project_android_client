@@ -19,7 +19,10 @@
             app:popExitAnim="@anim/pop_exit_animation" />
         <action
             android:id="@+id/action_askingSignupLogin_to_signupFragment2"
-            app:destination="@id/signupFragment" />
+            app:destination="@id/signupFragment"
+            app:enterAnim="@anim/enter_animation"
+            app:exitAnim="@anim/exit_animation"
+            app:popEnterAnim="@anim/pop_enter_animation" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

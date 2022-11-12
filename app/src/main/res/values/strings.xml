@@ -16,5 +16,7 @@
     <string name="product_not_found">Product not found.</string>
     <string name="username">Username</string>
     <string name="name">Name</string>
+    <string name="some_suggestion_for_you">Some suggestion for you</string>
+    <string name="scan_barcode">Scan Barcode</string>
     "
 </resources>

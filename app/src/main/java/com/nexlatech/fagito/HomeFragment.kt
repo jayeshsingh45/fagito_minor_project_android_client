@@ -59,23 +59,18 @@ class HomeFragment : Fragment() {
             when(it){
                 is Resource.DoNothing->{}
                 is Resource.Success ->{
-//                    Log.d("println",it.value.postRequest.content.userProductRecommendationList)
-
-                    for(element in it.value.postRequest.content.userProductRecommendationList){
-                        Log.d("println",element.product_amazon_link)
-
-                    }
                     adapter.setData(it.value.postRequest.content.userProductRecommendationList)
 
+                    binding.pbProgressBar.visibility = View.INVISIBLE
+                    makeEveryThingVisible()
 
-//                    settingViewsValue(it.value)
-//
-//                    makeEveryThingVisible()
-//                    binding.tvErrorAndLoading.visibility = View.INVISIBLE
                 }
                 is Resource.Failure ->{
+                    binding.tvError.visibility = View.VISIBLE
                     if(it.errorCode == 404){
-//                        binding.tvErrorAndLoading.text = it.errorBody
+                        binding.tvError.text = it.errorBody
+                    }else{
+                        binding.tvError.text = "Error has occurred. Try again later."
                     }
 
                 }
@@ -85,6 +80,10 @@ class HomeFragment : Fragment() {
 
 
         return view
+    }
+
+    private fun makeEveryThingVisible() {
+        binding.rvProduct.visibility = View.VISIBLE
     }
 
     private fun getJsonTokenSharedPreferences():String? {
