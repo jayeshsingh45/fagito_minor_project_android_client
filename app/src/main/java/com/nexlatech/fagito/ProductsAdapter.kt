@@ -1,5 +1,6 @@
 package com.nexlatech.fagito
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,7 +12,8 @@ import com.nexlatech.fagito.databinding.CustomRowBinding
 import com.nexlatech.fagito.models.UserProductRecommendation
 import com.nexlatech.fagito.viewmodel.MainViewModel
 
-class ProductsAdapter(private val mProductRecommendation: MainViewModel,private val fragment: HomeFragment)
+class ProductsAdapter(private val mProductRecommendation: MainViewModel,
+                      private val fragment: HomeFragment,private val token: String)
     :RecyclerView.Adapter<ProductsAdapter.ProductsViewHolder>() {
 
     private var productList = emptyList<UserProductRecommendation>()
@@ -34,7 +36,15 @@ class ProductsAdapter(private val mProductRecommendation: MainViewModel,private 
         val currentItem = productList[position]
 
         holder.binding.clRootView.setOnClickListener {
-            Log.d("println","opening bottom modal from recycler view.")
+            val mBundle = Bundle()
+            mBundle.putString("UPCCode", currentItem.upc_code)
+            mBundle.putString("token", token)
+
+            val modalBottomSheet = BottomModalFragment()
+            modalBottomSheet.arguments = mBundle
+            fragment.activity?.supportFragmentManager?.let {
+                    it1 -> modalBottomSheet.show(it1, BottomModalFragment.TAG)
+            }
         }
 
         holder.binding.apply {

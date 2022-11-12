@@ -50,7 +50,7 @@ class HomeFragment : Fragment() {
         }
 
         //RecyclerView Setup
-        val adapter = ProductsAdapter(mainViewModel, this)
+        val adapter = ProductsAdapter(mainViewModel, this, jsonToken!!)
         val recyclerView = binding.rvProduct
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
