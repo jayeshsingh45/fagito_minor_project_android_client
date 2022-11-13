@@ -26,6 +26,29 @@ class FagitoRepository(
     private val fagitoService: FagitoService,
     private val applicationContext: Context,
     ) {
+    //signupUserAvoidLive Live data
+    private val signUpUserAvoidLiveData = MutableLiveData<Resource<SignUpUserAvoidResponse>>()
+    val signUpUserAvoidLive: LiveData<Resource<SignUpUserAvoidResponse>>
+        get() = signUpUserAvoidLiveData
+
+    suspend fun signUpUserAvoid(token:String, ingredientCode:Int, ingredientName:String ){
+        val signupUserAvoidSend = SignUpUserAvoidSend(ingredientCode, ingredientName)
+
+        val response = fagitoService.signupUserAvoid(token, signupUserAvoidSend)
+
+        if(response.isSuccessful && response.body() != null){
+            signUpUserAvoidLiveData.postValue(Resource.Success(response.body()!!))
+        }else if (response.errorBody() != null){
+            val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+            val descripitonText = errorObj.getJSONObject("postRequest").getString("description")
+            signUpUserAvoidLiveData.postValue(Resource.Failure(false,response.code(),descripitonText))
+
+            Log.d("println",errorObj.getJSONObject("postRequest").getString("description"))
+        }else{
+            Log.d("println", "Unknown error occurred.")
+        }
+    }
+
 
     //signupAllergyLive Live data
     private val signUpAllergyLiveData = MutableLiveData<Resource<SignUpAllergyResponse>>()

@@ -56,6 +56,15 @@ class MainViewModel(private val repository: FagitoRepository):ViewModel() {
     val signUpAllergyMVM: LiveData<Resource<SignUpAllergyResponse>>
         get() = repository.signupAllergyLive
 
+
+    fun signUpUserAvoid(token: String, ingredientCode: Int, ingredientName: String){
+        viewModelScope.launch {
+            repository.signUpUserAvoid(token, ingredientCode, ingredientName)
+        }
+    }
+    val signUpUserAvoidMVM: LiveData<Resource<SignUpUserAvoidResponse>>
+        get() = repository.signUpUserAvoidLive
+
     val getLoginToken : LiveData<Resource<getLoginToken>>
         get() = repository.logins
 

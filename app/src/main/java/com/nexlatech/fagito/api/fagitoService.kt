@@ -36,4 +36,10 @@ interface FagitoService {
         @Header("access-token") token: String,
         @Body signupAllergySend: SignupAllergySend
     ): Response<SignUpAllergyResponse>
+
+    @POST("/fagito_minor_project_1.0/authentication/signupUserAvoid")
+    suspend fun signupUserAvoid(
+        @Header("access-token") token: String,
+        @Body signUpUserAvoidSend: SignUpUserAvoidSend
+    ): Response<SignUpUserAvoidResponse>
 }
