@@ -1,5 +1,6 @@
 package com.nexlatech.fagito
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -156,8 +157,7 @@ class SingupAvoidFragment : Fragment() {
     }
 
     private fun signUpUserAvoid(ingredientCode: Int, ingredientName: String){
-//        val jsonToken = getJsonTokenSharedPreferences()
-        val jsonToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InRlc3QxMCIsImlhdCI6MTY2ODI5Mjc4NiwiZXhwIjoxNjk5ODI4Nzg2fQ.o3H3GUxK4dPit9VaD8ANPD8BY66jCoF-ZpH5vvYWbak"
+        val jsonToken = getJsonTokenSharedPreferences()
 
         if (jsonToken != null) {
             mainViewModel.signUpUserAvoid(jsonToken, ingredientCode, ingredientName)
@@ -165,5 +165,14 @@ class SingupAvoidFragment : Fragment() {
             Toast.makeText(requireContext(), "Can't get Token from local Storage Login again.",
                 Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun getJsonTokenSharedPreferences():String? {
+        //getting Json token from shared preferences.
+
+        val sharedPreference = activity?.getSharedPreferences("jsonTokenFile", Context.MODE_PRIVATE)
+        val jsonToken = sharedPreference?.getString("jsonTokenKey","NoToken");
+
+        return jsonToken;
     }
 }

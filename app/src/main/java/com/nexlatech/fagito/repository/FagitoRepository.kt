@@ -26,6 +26,32 @@ class FagitoRepository(
     private val fagitoService: FagitoService,
     private val applicationContext: Context,
     ) {
+    //signup Live data
+    private val signUpLiveData = MutableLiveData<Resource<SignUpResponse>>()
+    val signUpLive: LiveData<Resource<SignUpResponse>>
+        get() = signUpLiveData
+
+    suspend fun signUp(
+        email:String, userName:String,password: String,firstName:String,lastName:String
+    ){
+        val signupSend = SignUpSend(email,firstName,lastName,password,userName)
+
+        val response = fagitoService.signUp(signupSend)
+
+        if(response.isSuccessful && response.body() != null){
+            signUpLiveData.postValue(Resource.Success(response.body()!!))
+        }else if (response.errorBody() != null){
+            val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+            val descripitonText = errorObj.getJSONObject("postRequest").getString("description")
+            signUpLiveData.postValue(Resource.Failure(false,response.code(),descripitonText))
+
+            Log.d("println",errorObj.getJSONObject("postRequest").getString("description"))
+        }else{
+            Log.d("println", "Unknown error occurred.")
+        }
+    }
+
+
     //signupUserAvoidLive Live data
     private val signUpUserAvoidLiveData = MutableLiveData<Resource<SignUpUserAvoidResponse>>()
     val signUpUserAvoidLive: LiveData<Resource<SignUpUserAvoidResponse>>

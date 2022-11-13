@@ -170,8 +170,7 @@ class SignupAllergyFragment : Fragment() {
     }
 
     private fun signUpAllergy(allergyCode: Int, allergyName: String){
-//        val jsonToken = getJsonTokenSharedPreferences()
-        val jsonToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InRlc3QxMCIsImlhdCI6MTY2ODI5Mjc4NiwiZXhwIjoxNjk5ODI4Nzg2fQ.o3H3GUxK4dPit9VaD8ANPD8BY66jCoF-ZpH5vvYWbak"
+        val jsonToken = getJsonTokenSharedPreferences()
 
         if (jsonToken != null) {
             mainViewModel.signUpAllergy(jsonToken, allergyCode, allergyName)
