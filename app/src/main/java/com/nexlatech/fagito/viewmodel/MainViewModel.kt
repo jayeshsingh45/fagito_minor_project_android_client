@@ -4,10 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nexlatech.fagito.api.Resource
-import com.nexlatech.fagito.models.FoodRecommendationModel
-import com.nexlatech.fagito.models.getLoginToken
-import com.nexlatech.fagito.models.getProfileDetails
-import com.nexlatech.fagito.models.userCanEatOrNot
+import com.nexlatech.fagito.models.*
 import com.nexlatech.fagito.repository.FagitoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +46,15 @@ class MainViewModel(private val repository: FagitoRepository):ViewModel() {
     }
     val foodRecommendationMVM: LiveData<Resource<FoodRecommendationModel>>
         get() = repository.foodRecommendationLive
+
+
+    fun signUpAllergy(token: String, allergyCode: Int, allergyName:String){
+        viewModelScope.launch {
+            repository.signUpAllergy(token, allergyCode, allergyName)
+        }
+    }
+    val signUpAllergyMVM: LiveData<Resource<SignUpAllergyResponse>>
+        get() = repository.signupAllergyLive
 
     val getLoginToken : LiveData<Resource<getLoginToken>>
         get() = repository.logins

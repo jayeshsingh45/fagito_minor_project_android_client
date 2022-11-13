@@ -30,4 +30,10 @@ interface FagitoService {
     suspend fun getFoodRecommendation(
         @Header("access-token") token: String
     ): Response<FoodRecommendationModel>
+
+    @POST("/fagito_minor_project_1.0/authentication/signupAllergy")
+    suspend fun singUpAllergy(
+        @Header("access-token") token: String,
+        @Body signupAllergySend: SignupAllergySend
+    ): Response<SignUpAllergyResponse>
 }

@@ -15,4 +15,11 @@
     <string name="name">Name</string>
     <string name="some_suggestion_for_you">Some suggestion for you</string>
     <string name="scan_barcode">Scan Barcode</string>
+    <string name="peanuts">Peanuts</string>
+    <string name="soya">Soya</string>
+    <string name="wheat">Wheat</string>
+    <string name="nuts">Nuts</string>
+    <string name="milk">Milk</string>
+    <string name="none">None</string>
+    <string name="sulphite">Sulphite</string>
 </resources>

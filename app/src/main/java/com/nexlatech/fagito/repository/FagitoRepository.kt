@@ -27,6 +27,30 @@ class FagitoRepository(
     private val applicationContext: Context,
     ) {
 
+    //signupAllergyLive Live data
+    private val signUpAllergyLiveData = MutableLiveData<Resource<SignUpAllergyResponse>>()
+    val signupAllergyLive: LiveData<Resource<SignUpAllergyResponse>>
+        get() = signUpAllergyLiveData
+
+    suspend fun signUpAllergy(token:String,allergyCode:Int, allergyName:String ){
+        val signupAllergySend = SignupAllergySend(allergyCode, allergyName)
+
+        val response = fagitoService.singUpAllergy(token,signupAllergySend)
+
+        if(response.isSuccessful && response.body() != null){
+            signUpAllergyLiveData.postValue(Resource.Success(response.body()!!))
+        }else if (response.errorBody() != null){
+            val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+            val descripitonText = errorObj.getJSONObject("postRequest").getString("description")
+            signUpAllergyLiveData.postValue(Resource.Failure(false,response.code(),descripitonText))
+
+            Log.d("println",errorObj.getJSONObject("postRequest").getString("description"))
+        }else{
+            Log.d("println", "Unknown error occurred.")
+        }
+    }
+
+
     //foodRecommendation Live data
     private val foodRecommendationLiveData = MutableLiveData<Resource<FoodRecommendationModel>>()
     val foodRecommendationLive: LiveData<Resource<FoodRecommendationModel>>
@@ -58,22 +82,22 @@ class FagitoRepository(
     suspend fun userCanEatOrNot(UPCCode:String, token:String){
         val userCanEatOrNotRequest = userCanEatOrNotRequest(UPCCode);
 
-            val response = fagitoService.userCanEatOrNot(
-                token,
-                userCanEatOrNotRequest
-            )
+        val response = fagitoService.userCanEatOrNot(
+            token,
+            userCanEatOrNotRequest
+        )
 
-            if(response.isSuccessful && response.body() != null){
-                userCanEatOrNotLiveData.postValue(Resource.Success(response.body()!!))
-            }else if (response.errorBody() != null){
-                val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
-                val descripitonText = errorObj.getJSONObject("postRequest").getString("description")
-                userCanEatOrNotLiveData.postValue(Resource.Failure(false,response.code(),descripitonText))
+        if(response.isSuccessful && response.body() != null){
+            userCanEatOrNotLiveData.postValue(Resource.Success(response.body()!!))
+        }else if (response.errorBody() != null){
+            val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+            val descripitonText = errorObj.getJSONObject("postRequest").getString("description")
+            userCanEatOrNotLiveData.postValue(Resource.Failure(false,response.code(),descripitonText))
 
-                Log.d("println",errorObj.getJSONObject("postRequest").getString("description"))
-            }else{
-                Log.d("println", "Unknown error occurred.")
-            }
+            Log.d("println",errorObj.getJSONObject("postRequest").getString("description"))
+        }else{
+            Log.d("println", "Unknown error occurred.")
+        }
 
     }
 
@@ -96,57 +120,22 @@ class FagitoRepository(
         get() = loginLiveData
 
     suspend fun login(userName: String, password: String) {
-        if(NetworkUtils.isInternetAvailable(applicationContext)){
-            loginLiveData.postValue(Resource.Loading)
-            try {
-                val loginsData = LoginData(userName, password)
-                val result = fagitoService.getLoginToken(loginsData)
+        val loginDataSend = LoginData(password,userName);
 
-                if(result.body() != null){
-                    Log.d("println", "204:" + result.body().toString())
-                    loginLiveData.postValue(Resource.Success(result.body()!!))
+        val response = fagitoService.getLoginToken(
+            loginDataSend
+        )
 
-                    Timer().schedule(2000){
-                        loginLiveData.postValue(Resource.DoNothing)
-                    }
+        if(response.isSuccessful && response.body() != null){
+            loginLiveData.postValue(Resource.Success(response.body()!!))
+        }else if (response.errorBody() != null){
+            val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+            val descripitonText = errorObj.getJSONObject("postRequest").getString("description")
+            userCanEatOrNotLiveData.postValue(Resource.Failure(false,response.code(),descripitonText))
 
-                }else if (result.errorBody() != null){
-                    if(result.code() == 401){
-                        Log.d("println", "22:" + result.code().toString())
-                        loginLiveData.postValue(Resource.Failure(
-                            false, result.code(), "Email or password is incorrect."))
-
-                        Timer().schedule(2000){
-                            loginLiveData.postValue(Resource.DoNothing)
-                        }
-                    }else{
-                        Log.d("println", "24: " + result.errorBody()!!.string().toString())
-                        loginLiveData.postValue(Resource.Failure(
-                            false, result.code(), result.errorBody()!!.string().toString()))
-
-                        Timer().schedule(2000){
-                            loginLiveData.postValue(Resource.DoNothing)
-                        }
-                    }
-                }
-            }catch (e: Exception){
-                Log.d("println", "29: ${e.message.toString()}")
-                loginLiveData.postValue(Resource.Failure(
-                    false, 1, e.message.toString()))
-
-                Timer().schedule(2000){
-                    loginLiveData.postValue(Resource.DoNothing)
-                }
-            }
-
-        }else {
-            loginLiveData.postValue(Resource.Failure(
-                false, 0, "Check Internet."))
-            Log.d("println", "27: Check Internet.")
-
-            Timer().schedule(2000){
-                loginLiveData.postValue(Resource.DoNothing)
-            }
+            Log.d("println",errorObj.getJSONObject("postRequest").getString("description"))
+        }else{
+            Log.d("println", "Unknown error occurred.")
         }
     }
 
