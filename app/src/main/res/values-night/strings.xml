@@ -22,4 +22,6 @@
     <string name="milk">Milk</string>
     <string name="none">None</string>
     <string name="sulphite">Sulphite</string>
+    <string name="please_pay_attention">Please pay attention!</string>
+    <string name="got_it">Got it!</string>
 </resources>
