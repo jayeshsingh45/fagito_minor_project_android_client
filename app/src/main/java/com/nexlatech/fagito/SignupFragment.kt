@@ -76,6 +76,9 @@ class SignupFragment : Fragment() {
 
 
         }
+        binding.acbLogin.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_signupFragment_to_loginFragment)
+        }
 
         return view
     }
