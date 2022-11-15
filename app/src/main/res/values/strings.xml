@@ -31,5 +31,6 @@
     <string name="first_name">First Name</string>
     <string name="submit">Submit</string>
     <string name="next"><![CDATA[Next ->]]></string>
+    <string name="logout">logout</string>
     "
 </resources>
