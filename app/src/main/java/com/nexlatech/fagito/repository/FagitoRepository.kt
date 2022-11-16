@@ -180,11 +180,15 @@ class FagitoRepository(
         }else if (response.errorBody() != null){
             val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
             val descripitonText = errorObj.getJSONObject("postRequest").getString("description")
-            userCanEatOrNotLiveData.postValue(Resource.Failure(false,response.code(),descripitonText))
+            loginLiveData.postValue(Resource.Failure(false,response.code(),descripitonText))
 
             Log.d("println",errorObj.getJSONObject("postRequest").getString("description"))
         }else{
             Log.d("println", "Unknown error occurred.")
+            val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
+            val descripitonText = errorObj.getJSONObject("postRequest").getString("description")
+
+            loginLiveData.postValue(Resource.Failure(false,response.code(),descripitonText))
         }
     }
 

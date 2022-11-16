@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.google.android.material.snackbar.Snackbar
 import com.nexlatech.fagito.api.FagitoService
 import com.nexlatech.fagito.api.Resource
 import com.nexlatech.fagito.api.RetrofitHelper
@@ -60,6 +61,8 @@ class LoginFragment : Fragment() {
                 }
                 is Resource.Failure -> {
                     Log.d("println",it.errorCode.toString())
+                    Snackbar.make(view,"User name or password is incorrect.", 5000).show()
+
                 }
                 else -> {}
             }
@@ -69,6 +72,9 @@ class LoginFragment : Fragment() {
             mainViewModel.login(binding.tiUsername.text.toString(), binding.tiPassword.text.toString())
         }
 
+        binding.acbSignUpLoginFragment.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_signupFragment)
+        }
 
         return view
 
