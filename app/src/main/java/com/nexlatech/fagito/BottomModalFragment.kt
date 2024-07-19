@@ -93,12 +93,12 @@ class BottomModalFragment : BottomSheetDialogFragment() {
     }
 
     private fun makeEveryThingVisible(){
-        binding.ivProductImage.visibility = 1
-        binding.tvProductName.visibility = 1
-        binding.ivIcon.visibility = 1
-        binding.tvEatOrNot.visibility = 1
-        binding.ivBuyAmazon.visibility = 1
-        binding.ivBuyFlipkart.visibility = 1
+        binding.ivProductImage.visibility = VISIBLE
+        binding.tvProductName.visibility = VISIBLE
+        binding.ivIcon.visibility = VISIBLE
+        binding.tvEatOrNot.visibility = VISIBLE
+        binding.ivBuyAmazon.visibility = VISIBLE
+        binding.ivBuyFlipkart.visibility = VISIBLE
 
     }
 
