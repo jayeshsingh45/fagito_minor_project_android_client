@@ -7,23 +7,34 @@
     android:layout_height="match_parent"
     tools:context=".HomeActivity">
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomAppBar"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView2"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="105dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/app_nav"
+        />
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:fabCradleMargin="12dp"
+        app:fabCradleRoundedCornerRadius="12dp"
+        android:layout_gravity="bottom"
+        >
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:fabCradleMargin="12dp"
-            app:fabCradleRoundedCornerRadius="12dp"
-            android:layout_gravity="bottom">
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:background="@android:color/transparent"
+            app:menu="@menu/bottom_nav_menu" />
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigationView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
-                app:menu="@menu/bottom_nav_menu" />
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -33,14 +44,7 @@
         android:src="@drawable/ic_scanner"
         app:layout_anchor="@id/bottomAppBar"/>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView2"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/app_nav" />
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
