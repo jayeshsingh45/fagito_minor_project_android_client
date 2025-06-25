@@ -7,8 +7,8 @@ import java.util.concurrent.TimeUnit
 
 
 object RetrofitHelper {
-//    private const val BASE_URL = "https://nexla-271516.uc.r.appspot.com/"
-    private const val BASE_URL = "http://192.168.56.1:80/"
+    private const val BASE_URL = "https://fagito-backend.vercel.app/"
+//    private const val BASE_URL = "http://192.168.56.1:80/"
 
     fun getInstance(): Retrofit{
         val client = OkHttpClient.Builder()
